@@ -1,0 +1,21 @@
+services:
+  open-notebook:
+    image: lfnovo/open_notebook:v1-latest-single
+    ports:
+      - "8504:8502"  # Web UI (using 8504 externally)
+      - "5057:5055"  # API (using 5057 externally)
+    environment:
+      - API_URL=http://localhost:5057
+      # AI Provider API Keys
+      - OPENAI_API_KEY=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
+      - DEEPSEEK_API_KEY=sk-ee838629506e4aeead68ffe295c5234c
+      # Database connection (required for single-container)
+      - SURREAL_URL=ws://localhost:8000/rpc
+      - SURREAL_USER=root
+      - SURREAL_PASSWORD=root
+      - SURREAL_NAMESPACE=open_notebook
+      - SURREAL_DATABASE=production
+    volumes:
+      - ./notebook_data:/app/data
+      - ./surreal_data:/mydata
+    restart: always
